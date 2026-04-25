@@ -14,25 +14,18 @@ public class ProcesamientoGeneralDTO {
 
     public int getProcesamientoId() { return ProcesamientoId; }
     public void setProcesamientoId(int procesamientoId) { ProcesamientoId = procesamientoId; }
-
     public int getCosechaId() { return CosechaId; }
     public void setCosechaId(int cosechaId) { CosechaId = cosechaId; }
-
     public int getTipoId() { return TipoId; }
     public void setTipoId(int tipoId) { TipoId = tipoId; }
-
     public LocalDateTime getFechaInicio() { return FechaInicio; }
     public void setFechaInicio(LocalDateTime fechaInicio) { FechaInicio = fechaInicio; }
-
     public LocalDateTime getFechaFin() { return FechaFin; }
     public void setFechaFin(LocalDateTime fechaFin) { FechaFin = fechaFin; }
-
     public String getMetodo() { return Metodo; }
     public void setMetodo(String metodo) { Metodo = metodo; }
-
     public float getCantidad() { return Cantidad; }
     public void setCantidad(float cantidad) { Cantidad = cantidad; }
-
     public String getEstado() { return Estado; }
     public void setEstado(String estado) { Estado = estado; }
 }

@@ -2,8 +2,12 @@ package com.example.trabajo.controllers;
 
 import com.example.trabajo.dtos.ProcesamientoDTO;
 import com.example.trabajo.dtos.ProcesamientoGeneralDTO;
+import com.example.trabajo.entities.Cosecha;
 import com.example.trabajo.entities.Procesamiento;
+import com.example.trabajo.entities.TipoProcesamiento;
+import com.example.trabajo.servicesinterfaces.ICosechaService;
 import com.example.trabajo.servicesinterfaces.IProcesamientoService;
+import com.example.trabajo.servicesinterfaces.ITipoProcesamientoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +25,12 @@ public class ProcesamientoController {
     @Autowired
     private IProcesamientoService Ps;
 
+    @Autowired
+    private ICosechaService cS;
+
+    @Autowired
+    private ITipoProcesamientoService tS;
+
     @GetMapping("/listar")
     public ResponseEntity<List<ProcesamientoDTO>> listar() {
         ModelMapper m = new ModelMapper();
@@ -31,10 +41,25 @@ public class ProcesamientoController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<ProcesamientoGeneralDTO> registrar(@RequestBody ProcesamientoGeneralDTO dto) {
-        ModelMapper m = new ModelMapper();
-        Procesamiento p = m.map(dto, Procesamiento.class);
+    public ResponseEntity<?> registrar(@RequestBody ProcesamientoGeneralDTO dto) {
+        Optional<Cosecha> cosecha = cS.listId(dto.getCosechaId());
+        if (cosecha.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cosecha no encontrada");
+        }
+        Optional<TipoProcesamiento> tipo = tS.listId(dto.getTipoId());
+        if (tipo.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de procesamiento no encontrado");
+        }
+        Procesamiento p = new Procesamiento();
+        p.setCosecha(cosecha.get());
+        p.setTipoProcesamiento(tipo.get());
+        p.setFechaInicio(dto.getFechaInicio());
+        p.setFechaFin(dto.getFechaFin());
+        p.setMetodo(dto.getMetodo());
+        p.setCantidad(dto.getCantidad());
+        p.setEstado(dto.getEstado());
         Procesamiento saved = Ps.insert(p);
+        ModelMapper m = new ModelMapper();
         return ResponseEntity.status(HttpStatus.CREATED).body(m.map(saved, ProcesamientoGeneralDTO.class));
     }
 
@@ -55,9 +80,17 @@ public class ProcesamientoController {
         if (existente.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Procesamiento no encontrado");
         }
+        Optional<Cosecha> cosecha = cS.listId(dto.getCosechaId());
+        if (cosecha.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cosecha no encontrada");
+        }
+        Optional<TipoProcesamiento> tipo = tS.listId(dto.getTipoId());
+        if (tipo.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de procesamiento no encontrado");
+        }
         Procesamiento p = existente.get();
-        p.setCosechaId(dto.getCosechaId());
-        p.setTipoId(dto.getTipoId());
+        p.setCosecha(cosecha.get());
+        p.setTipoProcesamiento(tipo.get());
         p.setFechaInicio(dto.getFechaInicio());
         p.setFechaFin(dto.getFechaFin());
         p.setMetodo(dto.getMetodo());

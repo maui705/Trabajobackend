@@ -11,11 +11,13 @@ public class Procesamiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ProcesamientoId;
 
-    @Column(name = "CosechaId", nullable = false)
-    private int CosechaId;
+    @ManyToOne
+    @JoinColumn(name = "CosechaId", nullable = false)
+    private Cosecha cosecha;
 
-    @Column(name = "TipoId", nullable = false)
-    private int TipoId;
+    @ManyToOne
+    @JoinColumn(name = "TipoId", nullable = false)
+    private TipoProcesamiento tipoProcesamiento;
 
     @Column(name = "FechaInicio")
     private LocalDateTime FechaInicio;
@@ -34,38 +36,20 @@ public class Procesamiento {
 
     public Procesamiento() {}
 
-    public Procesamiento(int procesamientoId, int cosechaId, int tipoId, LocalDateTime fechaInicio, LocalDateTime fechaFin, String metodo, float cantidad, String estado) {
-        ProcesamientoId = procesamientoId;
-        CosechaId = cosechaId;
-        TipoId = tipoId;
-        FechaInicio = fechaInicio;
-        FechaFin = fechaFin;
-        Metodo = metodo;
-        Cantidad = cantidad;
-        Estado = estado;
-    }
-
     public int getProcesamientoId() { return ProcesamientoId; }
     public void setProcesamientoId(int procesamientoId) { ProcesamientoId = procesamientoId; }
-
-    public int getCosechaId() { return CosechaId; }
-    public void setCosechaId(int cosechaId) { CosechaId = cosechaId; }
-
-    public int getTipoId() { return TipoId; }
-    public void setTipoId(int tipoId) { TipoId = tipoId; }
-
+    public Cosecha getCosecha() { return cosecha; }
+    public void setCosecha(Cosecha cosecha) { this.cosecha = cosecha; }
+    public TipoProcesamiento getTipoProcesamiento() { return tipoProcesamiento; }
+    public void setTipoProcesamiento(TipoProcesamiento tipoProcesamiento) { this.tipoProcesamiento = tipoProcesamiento; }
     public LocalDateTime getFechaInicio() { return FechaInicio; }
     public void setFechaInicio(LocalDateTime fechaInicio) { FechaInicio = fechaInicio; }
-
     public LocalDateTime getFechaFin() { return FechaFin; }
     public void setFechaFin(LocalDateTime fechaFin) { FechaFin = fechaFin; }
-
     public String getMetodo() { return Metodo; }
     public void setMetodo(String metodo) { Metodo = metodo; }
-
     public float getCantidad() { return Cantidad; }
     public void setCantidad(float cantidad) { Cantidad = cantidad; }
-
     public String getEstado() { return Estado; }
     public void setEstado(String estado) { Estado = estado; }
 }
