@@ -9,77 +9,82 @@ import java.time.LocalDate;
 public class AImagenes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idImagen;
+    private int idAImagenes; // Corresponde a AImagenes_id
 
-    @Column(name = "nombreImagen", length = 100, nullable = false)
-    private String nombreImagen;
+    @Column(name = "FechaAnalisis", nullable = false)
+    private LocalDate fechaAnalisis;
 
-    @Column(name = "urlImagen", length = 250, nullable = false)
-    private String urlImagen;
+    @Column(name = "Formato", length = 20, nullable = false)
+    private String formato;
 
-    @Column(name = "fechaSubida", nullable = false)
-    private LocalDate fechaSubida;
+    @Column(name = "DefectosEncontrados", length = 250, nullable = false)
+    private String defectosEncontrados;
 
-    @Column(name = "analisisIA", length = 250, nullable = false)
-    private String analisisIA;
+    @Column(name = "Estado", nullable = false)
+    private boolean estado;
 
-    @Column(name = "estadoProcesamiento", nullable = false)
-    private boolean estadoProcesamiento;
+    @ManyToOne
+    @JoinColumn(name = "Lote_id") // Relación con la tabla de Mauricio
+    private Lote lote;
 
     public AImagenes() {
     }
 
-    public AImagenes(int idImagen, String nombreImagen, String urlImagen, LocalDate fechaSubida, String analisisIA, boolean estadoProcesamiento) {
-        this.idImagen = idImagen;
-        this.nombreImagen = nombreImagen;
-        this.urlImagen = urlImagen;
-        this.fechaSubida = fechaSubida;
-        this.analisisIA = analisisIA;
-        this.estadoProcesamiento = estadoProcesamiento;
+    public AImagenes(int idAImagenes, LocalDate fechaAnalisis, String formato, String defectosEncontrados, boolean estado, Lote lote) {
+        this.idAImagenes = idAImagenes;
+        this.fechaAnalisis = fechaAnalisis;
+        this.formato = formato;
+        this.defectosEncontrados = defectosEncontrados;
+        this.estado = estado;
+        this.lote = lote;
     }
 
-    public boolean isEstadoProcesamiento() {
-        return estadoProcesamiento;
+    public int getIdAImagenes() {
+        return idAImagenes;
     }
 
-    public void setEstadoProcesamiento(boolean estadoProcesamiento) {
-        this.estadoProcesamiento = estadoProcesamiento;
+    public void setIdAImagenes(int idAImagenes) {
+        this.idAImagenes = idAImagenes;
     }
 
-    public String getAnalisisIA() {
-        return analisisIA;
+    public LocalDate getFechaAnalisis() {
+        return fechaAnalisis;
     }
 
-    public void setAnalisisIA(String analisisIA) {
-        this.analisisIA = analisisIA;
+    public void setFechaAnalisis(LocalDate fechaAnalisis) {
+        this.fechaAnalisis = fechaAnalisis;
     }
 
-    public LocalDate getFechaSubida() {
-        return fechaSubida;
+    public String getFormato() {
+        return formato;
     }
 
-    public void setFechaSubida(LocalDate fechaSubida) {
-        this.fechaSubida = fechaSubida;
+    public void setFormato(String formato) {
+        this.formato = formato;
     }
 
-    public String getUrlImagen() {
-        return urlImagen;
+    public String getDefectosEncontrados() {
+        return defectosEncontrados;
     }
 
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
+    public void setDefectosEncontrados(String defectosEncontrados) {
+        this.defectosEncontrados = defectosEncontrados;
     }
 
-    public String getNombreImagen() {
-        return nombreImagen;
+    public boolean isEstado() {
+        return estado;
     }
 
-    public void setNombreImagen(String nombreImagen) {
-        this.nombreImagen = nombreImagen;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
-    public int getIdImagen() {return idImagen;}
+    public Lote getLote() {
+        return lote;
+    }
 
-    public void setIdImagen(int idImagen) {this.idImagen = idImagen;}
+    public void setLote(Lote lote) {
+        this.lote = lote;
+    }
 }
 

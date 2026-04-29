@@ -2,7 +2,6 @@ package pe.edu.upc.kurona.controllers;
 
 import pe.edu.upc.kurona.Entities.AImagenes;
 import pe.edu.upc.kurona.dtos.AImagenesDTO;
-import pe.edu.upc.kurona.dtos.AImagenesGeneralDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,11 +28,11 @@ public class AImagenesController {
         return ResponseEntity.ok(listaImagenes);
     }
     @PostMapping("/web")
-    public ResponseEntity<AImagenesGeneralDTO> registrar(@RequestBody AImagenesGeneralDTO dto){
+    public ResponseEntity<AImagenesDTO> registrar(@RequestBody AImagenesDTO dto){
         ModelMapper m = new ModelMapper();
         AImagenes c = m.map(dto, AImagenes.class);
         AImagenes cur = iS.insert(c);
-        AImagenesGeneralDTO responseDTO = m.map(cur, AImagenesGeneralDTO.class);
+        AImagenesDTO responseDTO = m.map(cur, AImagenesDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
@@ -43,7 +42,7 @@ public class AImagenesController {
         Optional<AImagenes> imagen = iS.listId(id);
 
         if (imagen.isPresent()) {
-            AImagenesGeneralDTO dto = m.map(imagen.get(), AImagenesGeneralDTO.class);
+            AImagenesDTO dto = m.map(imagen.get(), AImagenesDTO.class);
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -51,26 +50,21 @@ public class AImagenesController {
         }
     }
     @PutMapping("/actualiza")
-    public ResponseEntity<String> actualizar(@RequestBody AImagenesGeneralDTO dto) {
-        Optional<AImagenes> existente = iS.listId(dto.getIdImagen());
+    public ResponseEntity<String> actualizar(@RequestBody AImagenesDTO dto) {
+        Optional<AImagenes> existente = iS.listId(dto.getIdAImagenes());
+
         if (existente.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Imagen no encontrada");
-        }
-        if (dto.getFechaSubida() == null) {
-            return ResponseEntity.badRequest()
-                    .body("La fecha de subida no puede ser nula");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Imagen no encontrada");
         }
 
         AImagenes i = existente.get();
-        i.setNombreImagen(dto.getNombreImagen());
-        i.setUrlImagen(dto.getUrlImagen());
-        i.setFechaSubida(dto.getFechaSubida());
-        i.setAnalisisIA(dto.getAnalisisIA());
-        i.setEstadoProcesamiento(dto.isEstadoProcesamiento());
+        i.setFechaAnalisis(dto.getFechaAnalisis());
+        i.setFormato(dto.getFormato());
+        i.setDefectosEncontrados(dto.getDefectosEncontrados());
+        i.setEstado(dto.isEstado());
+        i.setLote(dto.getLote());
 
         iS.update(i);
-
         return ResponseEntity.ok("Imagen actualizada correctamente");
     }
     @DeleteMapping("/{id}")
@@ -85,4 +79,39 @@ public class AImagenesController {
                     .body("Imagen no encontrada");
         }
     }
+
+    @GetMapping("/buscar-formato")
+    public ResponseEntity<List<AImagenesDTO>> buscarPorFormato(@RequestParam String formato) {
+        ModelMapper m = new ModelMapper();
+        List<AImagenesDTO> lista = iS.buscarPorFormato(formato).stream()
+                .map(y -> m.map(y, AImagenesDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(lista);
+    }
+
+    // (HU01)
+    @GetMapping("/buscar-defecto")
+    public ResponseEntity<List<AImagenesDTO>> buscarPorDefecto(@RequestParam String defecto) {
+        ModelMapper m = new ModelMapper();
+        List<AImagenesDTO> lista = iS.buscarPorDefecto(defecto).stream()
+                .map(y -> m.map(y, AImagenesDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(lista);
+    }
+
+    // (HU02)
+    @GetMapping("/buscar-lote/{idLote}")
+    public ResponseEntity<List<AImagenesDTO>> buscarPorLote(@PathVariable int idLote) {
+        ModelMapper m = new ModelMapper();
+        List<AImagenesDTO> lista = iS.buscarPorLote(idLote).stream()
+                .map(y -> m.map(y, AImagenesDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(lista);
+    }
+    @GetMapping("/cantidad-por-lote")
+    public ResponseEntity<List<Object[]>> cantidadImagenesPorLote() {
+        List<Object[]> lista = iS.cantidadImagenesPorLote();
+        return ResponseEntity.ok(lista);
+    }
+
 }

@@ -28,4 +28,24 @@ public class AImagenesServiceImplement implements IAImagenesService {
 
     @Override
     public void delete(int id) { aR.deleteById(id); }
+
+    @Override
+    public List<AImagenes> buscarPorFormato(String formato) {
+        return aR.findByFormato(formato);
+    }
+
+    @Override
+    public List<AImagenes> buscarPorDefecto(String defecto) {
+        return aR.buscarPorDefecto(defecto);
+    }
+
+    @Override
+    public List<AImagenes> buscarPorLote(int idLote) {
+        return aR.buscarPorLote(idLote);
+    }
+
+    @Override
+    public List<Object[]> cantidadImagenesPorLote() {
+        return aR.cantidadImagenesPorLote();
+    }
 }

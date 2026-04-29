@@ -10,4 +10,8 @@ public interface IAImagenesService {
     public Optional<AImagenes> listId(int id);
     public void update(AImagenes a);
     public void delete(int id);
+    List<AImagenes> buscarPorFormato(String formato);
+    List<AImagenes> buscarPorDefecto(String defecto);
+    List<AImagenes> buscarPorLote(int idLote);
+    List<Object[]> cantidadImagenesPorLote();
 }

@@ -1,25 +1,62 @@
 package pe.edu.upc.kurona.dtos;
 
+import pe.edu.upc.kurona.Entities.Lote;
+
 import java.time.LocalDate;
 
 public class AImagenesDTO {
-    private int idImagen;
-    private String nombreImagen;
-    private String urlImagen;
-    private LocalDate fechaSubida;
-    private String analisisIA;
-    private boolean estadoProcesamiento;
+    private int idAImagenes;
+    private LocalDate fechaAnalisis;
+    private String formato;
+    private String defectosEncontrados;
+    private boolean estado;
+    private Lote lote;
 
-    public int getIdImagen() { return idImagen; }
-    public void setIdImagen(int idImagen) { this.idImagen = idImagen; }
-    public String getNombreImagen() { return nombreImagen; }
-    public void setNombreImagen(String nombreImagen) { this.nombreImagen = nombreImagen; }
-    public String getUrlImagen() { return urlImagen; }
-    public void setUrlImagen(String urlImagen) { this.urlImagen = urlImagen; }
-    public LocalDate getFechaSubida() { return fechaSubida; }
-    public void setFechaSubida(LocalDate fechaSubida) { this.fechaSubida = fechaSubida; }
-    public String getAnalisisIA() { return analisisIA; }
-    public void setAnalisisIA(String analisisIA) { this.analisisIA = analisisIA; }
-    public boolean isEstadoProcesamiento() { return estadoProcesamiento; }
-    public void setEstadoProcesamiento(boolean estadoProcesamiento) { this.estadoProcesamiento = estadoProcesamiento; }
+    public int getIdAImagenes() {
+        return idAImagenes;
+    }
+
+    public void setIdAImagenes(int idAImagenes) {
+        this.idAImagenes = idAImagenes;
+    }
+
+    public LocalDate getFechaAnalisis() {
+        return fechaAnalisis;
+    }
+
+    public void setFechaAnalisis(LocalDate fechaAnalisis) {
+        this.fechaAnalisis = fechaAnalisis;
+    }
+
+    public String getFormato() {
+        return formato;
+    }
+
+    public void setFormato(String formato) {
+        this.formato = formato;
+    }
+
+    public String getDefectosEncontrados() {
+        return defectosEncontrados;
+    }
+
+    public void setDefectosEncontrados(String defectosEncontrados) {
+        this.defectosEncontrados = defectosEncontrados;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public Lote getLote() {
+        return lote;
+    }
+
+    public void setLote(Lote lote) {
+        this.lote = lote;
+    }
 }
