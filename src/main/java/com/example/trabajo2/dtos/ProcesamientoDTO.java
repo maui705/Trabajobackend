@@ -1,14 +1,79 @@
 package com.example.trabajo2.dtos;
 
-public class ProcesamientoDTO {
-    private String Metodo;
-    private float Cantidad;
-    private String Estado;
+import java.time.LocalDate;
 
-    public String getMetodo() { return Metodo; }
-    public void setMetodo(String metodo) { Metodo = metodo; }
-    public float getCantidad() { return Cantidad; }
-    public void setCantidad(float cantidad) { Cantidad = cantidad; }
-    public String getEstado() { return Estado; }
-    public void setEstado(String estado) { Estado = estado; }
+public class ProcesamientoDTO {
+
+    private int procesamientoId;
+    private int idCosecha;
+    private int tipoId;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private String metodo;
+    private float cantidad;
+    private String estado;
+
+    public int getProcesamientoId() {
+        return procesamientoId;
+    }
+
+    public void setProcesamientoId(int procesamientoId) {
+        this.procesamientoId = procesamientoId;
+    }
+
+    public int getIdCosecha() {
+        return idCosecha;
+    }
+
+    public void setIdCosecha(int idCosecha) {
+        this.idCosecha = idCosecha;
+    }
+
+    public int getTipoId() {
+        return tipoId;
+    }
+
+    public void setTipoId(int tipoId) {
+        this.tipoId = tipoId;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public String getMetodo() {
+        return metodo;
+    }
+
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
+
+    public float getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(float cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

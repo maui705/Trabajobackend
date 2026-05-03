@@ -1,14 +1,33 @@
 package com.example.trabajo2.dtos;
 
 public class TipoProcesamientoGeneralDTO {
-    private int TipoId;
-    private String Nombre;
-    private String Descripcion;
 
-    public int getTipoId() { return TipoId; }
-    public void setTipoId(int tipoId) { TipoId = tipoId; }
-    public String getNombre() { return Nombre; }
-    public void setNombre(String nombre) { Nombre = nombre; }
-    public String getDescripcion() { return Descripcion; }
-    public void setDescripcion(String descripcion) { Descripcion = descripcion; }
+    private int tipoId;
+    private String nombre;
+    private String descripcion;
+
+
+    public int getTipoId() {
+        return tipoId;
+    }
+
+    public void setTipoId(int tipoId) {
+        this.tipoId = tipoId;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }

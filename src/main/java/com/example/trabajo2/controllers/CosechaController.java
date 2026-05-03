@@ -1,91 +1,98 @@
 package com.example.trabajo2.controllers;
 
 import com.example.trabajo2.dtos.CosechaDTO;
+//import com.example.trabajo2.dtos.LoteGeneralDTO;
+import com.example.trabajo2.dtos.QuantityCosecha;
 import com.example.trabajo2.entities.Cosecha;
-import com.example.trabajo2.entities.Lote;
 import com.example.trabajo2.servicesinterfaces.ICosechaService;
-import com.example.trabajo2.servicesinterfaces.ILoteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/cosechas")
+@RequestMapping("/api/cosechas")
 public class CosechaController {
-
     @Autowired
     private ICosechaService cS;
 
-    @Autowired
-    private ILoteService lS;
-
-    @GetMapping("/listar")
-    public ResponseEntity<List<CosechaDTO>> listar() {
+    @GetMapping("/listar-cosecha")
+    public ResponseEntity<?> listar(){
         ModelMapper m = new ModelMapper();
-        List<CosechaDTO> lista = cS.list().stream()
-                .map(y -> m.map(y, CosechaDTO.class))
+        List<CosechaDTO> listaCosechas = cS.list()
+                .stream().map(y->m.map(y, CosechaDTO.class))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(lista);
+        if(listaCosechas.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay cosecha registrada");
+        }
+        else{
+            return  ResponseEntity.ok(listaCosechas);
+        }
     }
 
-    @PostMapping("/registrar")
-    public ResponseEntity<?> registrar(@RequestBody CosechaDTO dto) {
-        Optional<Lote> lote = lS.listId(dto.getLoteId());
-        if (lote.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lote no encontrado");
-        }
-        Cosecha c = new Cosecha();
-        c.setCantidad(dto.getCantidad());
-        c.setEstadoCosecha(dto.getEstadoCosecha());
-        c.setFirmaElectronica(dto.getFirmaElectronica());
-        c.setResponsable(dto.getResponsable());
-        c.setMetodos(dto.getMetodos());
-        c.setLote(lote.get());
-        Cosecha saved = cS.insert(c);
-        ModelMapper m = new ModelMapper();
-        return ResponseEntity.status(HttpStatus.CREATED).body(m.map(saved, CosechaDTO.class));
+    @PostMapping("/registrar-cosecha")
+    public ResponseEntity<CosechaDTO> registrar(@RequestBody CosechaDTO dto){
+        ModelMapper m=new ModelMapper();
+        Cosecha c=m.map(dto, Cosecha.class);
+        Cosecha cur= cS.insert(c);
+        CosechaDTO responseDTO=m.map(cur,CosechaDTO.class);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable int id) {
         ModelMapper m = new ModelMapper();
         Optional<Cosecha> cosecha = cS.listId(id);
-        if (cosecha.isPresent()) {
-            return ResponseEntity.ok(m.map(cosecha.get(), CosechaDTO.class));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cosecha no encontrada");
-        }
-    }
 
-    @PutMapping("/actualiza")
-    public ResponseEntity<String> actualizar(@RequestBody CosechaDTO dto) {
-        Optional<Cosecha> existente = cS.listId(dto.getCosechaId());
-        if (existente.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cosecha no encontrada");
+        if (cosecha.isPresent()) {
+            CosechaDTO dto = m.map(cosecha.get(), CosechaDTO.class);
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Cosecha no encontrado");
         }
-        Cosecha c = existente.get();
-        c.setCantidad(dto.getCantidad());
-        c.setEstadoCosecha(dto.getEstadoCosecha());
-        c.setFirmaElectronica(dto.getFirmaElectronica());
-        c.setResponsable(dto.getResponsable());
-        c.setMetodos(dto.getMetodos());
-        cS.update(c);
+
+
+    }
+    @PutMapping("/actualizar-cosecha")
+    public ResponseEntity<String> actualizar(@RequestBody CosechaDTO dto) {
+        Optional<Cosecha> existente = cS.listId(dto.getIdCosecha());
+        if (existente.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Cosecha no encontrada");
+        }
+        Cosecha p = existente.get();
+        p.setIdCosecha(dto.getIdCosecha());
+        p.setCantidad(dto.getCantidad());
+        p.setEstadoCosecha(dto.getEstadoCosecha());
+        p.setMetodos(dto.getMetodos());
+        p.setFirmaElectronica(dto.getFirmaElectronica());
+        p.setResponsable(dto.getResponsable());
+        cS.update(p);
+
         return ResponseEntity.ok("Cosecha actualizada correctamente");
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable int id) {
-        Optional<Cosecha> cosecha = cS.listId(id);
-        if (cosecha.isPresent()) {
-            cS.delete(id);
-            return ResponseEntity.ok("Cosecha eliminada correctamente");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cosecha no encontrada");
+    @PostMapping("/cantidad-lote-cosecha")
+    public ResponseEntity<?>CantidadCosecha(){
+        List<Object[]> listaCantidad=cS.quantityCosecha();
+        if(listaCantidad.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No hay cosechas asignadas");
         }
+        List<QuantityCosecha> respuesta=new ArrayList<>();
+        for(Object[] fila:listaCantidad){
+            QuantityCosecha dto=new QuantityCosecha();
+            dto.setIdCosecha(((Number)fila[0]).intValue());
+            dto.setUbicacion((String) fila[1]);
+            dto.setQuantityCosecha(((Number)fila[2]).intValue());
+            respuesta.add(dto);
+        }
+        return  ResponseEntity.ok(respuesta);
     }
 }

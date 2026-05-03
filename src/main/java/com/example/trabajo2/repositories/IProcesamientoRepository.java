@@ -10,6 +10,4 @@ import java.util.List;
 @Repository
 public interface IProcesamientoRepository extends JpaRepository<Procesamiento, Integer> {
 
-    @Query("SELECT p FROM Procesamiento p INNER JOIN p.cosecha c INNER JOIN p.tipoProcesamiento t WHERE p.Estado = :estado")
-    List<Procesamiento> findByEstado(@Param("estado") String estado);
 }

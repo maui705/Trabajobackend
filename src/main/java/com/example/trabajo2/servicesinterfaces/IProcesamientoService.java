@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProcesamientoService {
-    List<Procesamiento> list();
-    Procesamiento insert(Procesamiento p);
-    Optional<Procesamiento> listId(int id);
-    void update(Procesamiento p);
-    void delete(int id);
-    List<Procesamiento> findByEstado(String estado);
+    public List<Procesamiento> list();
+    public Procesamiento insert(Procesamiento p);
+    public Optional<Procesamiento> listId(int id);
+    public void update(Procesamiento p);
+    public void delete(int id);
 }

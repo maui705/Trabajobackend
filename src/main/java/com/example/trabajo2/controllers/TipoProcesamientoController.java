@@ -14,13 +14,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/TipoProcesamiento")
+@RequestMapping("api/tipoProcesamiento")
 public class TipoProcesamientoController {
 
     @Autowired
     private ITipoProcesamientoService Ts;
 
-    @GetMapping("/listar")
+    @GetMapping("/listar-tipoProcesamiento")
     public ResponseEntity<List<TipoProcesamientoDTO>> listar() {
         ModelMapper m = new ModelMapper();
         List<TipoProcesamientoDTO> lista = Ts.list().stream()
@@ -29,26 +29,26 @@ public class TipoProcesamientoController {
         return ResponseEntity.ok(lista);
     }
 
-    @PostMapping("/registrar")
+    @PostMapping("/registrar-TipoProcesamiento")
     public ResponseEntity<TipoProcesamientoGeneralDTO> registrar(@RequestBody TipoProcesamientoGeneralDTO dto) {
         ModelMapper m = new ModelMapper();
         TipoProcesamiento tp = m.map(dto, TipoProcesamiento.class);
-        TipoProcesamiento saved = Ts.insert(tp);
-        return ResponseEntity.status(HttpStatus.CREATED).body(m.map(saved, TipoProcesamientoGeneralDTO.class));
+        TipoProcesamiento tpr = Ts.insert(tp);
+        return ResponseEntity.status(HttpStatus.CREATED).body(m.map(tpr, TipoProcesamientoGeneralDTO.class));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable int id) {
         ModelMapper m = new ModelMapper();
-        Optional<TipoProcesamiento> tp = Ts.listId(id);
-        if (tp.isPresent()) {
-            return ResponseEntity.ok(m.map(tp.get(), TipoProcesamientoGeneralDTO.class));
+        Optional<TipoProcesamiento> tipo = Ts.listId(id);
+        if (tipo.isPresent()) {
+            return ResponseEntity.ok(m.map(tipo.get(), TipoProcesamientoGeneralDTO.class));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("TipoProcesamiento no encontrado");
         }
     }
 
-    @PutMapping("/actualiza")
+    @PutMapping("/actualizar-TipoProcesamiento")
     public ResponseEntity<String> actualizar(@RequestBody TipoProcesamientoGeneralDTO dto) {
         Optional<TipoProcesamiento> existente = Ts.listId(dto.getTipoId());
         if (existente.isEmpty()) {
@@ -72,3 +72,4 @@ public class TipoProcesamientoController {
         }
     }
 }
+

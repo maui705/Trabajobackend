@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITipoProcesamientoService {
-    List<TipoProcesamiento> list();
-    TipoProcesamiento insert(TipoProcesamiento tp);
-    Optional<TipoProcesamiento> listId(int id);
-    void update(TipoProcesamiento tp);
-    void delete(int id);
+   public List<TipoProcesamiento> list();
+   public TipoProcesamiento insert(TipoProcesamiento tp);
+   public Optional<TipoProcesamiento> listId(int id);
+   public void update(TipoProcesamiento tp);
+   public void delete(int id);
 }

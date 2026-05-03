@@ -24,8 +24,5 @@ public class ProcesamientoServiceImplement implements IProcesamientoService {
     public void update(Procesamiento p) { pR.save(p); }
     @Override
     public void delete(int id) { pR.deleteById(id); }
-    @Override
-    public List<Procesamiento> findByEstado(String estado) {
-        return pR.findByEstado(estado);
-    }
+
 }
