@@ -1,13 +1,15 @@
-package com.example.trabajo2.serviceinterfaces;
+package com.example.trabajo2.servicesimplement;
 
-import com.example.trabajo2.entities.Lote;
-import com.example.trabajo2.repositories.ILoteRepository;
-import com.example.trabajo2.servicesimplements.ILoteService;
+import com.example.BD_CU.entities.Lote;
+import com.example.BD_CU.repositories.ILoteRepository;
+
+import com.example.BD_CU.servicesinterfaces.ILoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class LoteServiceImplement implements ILoteService {
     @Autowired

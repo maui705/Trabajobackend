@@ -11,33 +11,78 @@ public class UsuarioDTO {
     private String Password;
     private Boolean Estado;
     private LocalDate FechaRegistro;
+    private int Extras;
+    private int RolId;
 
+    public int getUsuario_Id() {
+        return Usuario_Id;
+    }
 
-    public int getUsuario_Id() {return Usuario_Id;}
+    public void setUsuario_Id(int usuario_Id) {
+        Usuario_Id = usuario_Id;
+    }
 
-    public void setUsuario_Id(int usuario_Id) {Usuario_Id = usuario_Id;}
+    public String getNombre() {
+        return Nombre;
+    }
 
-    public String getNombre() {return Nombre;}
+    public void setNombre(String nombre) {
+        Nombre = nombre;
+    }
 
-    public void setNombre(String nombre) {Nombre = nombre;}
+    public String getApellido() {
+        return Apellido;
+    }
 
-    public String getApellido() {return Apellido;}
+    public void setApellido(String apellido) {
+        Apellido = apellido;
+    }
 
-    public void setApellido(String apellido) {Apellido = apellido;}
+    public String getEmail() {
+        return Email;
+    }
 
-    public String getEmail() {return Email;}
+    public void setEmail(String email) {
+        Email = email;
+    }
 
-    public void setEmail(String email) {Email = email;}
+    public String getPassword() {
+        return Password;
+    }
 
-    public String getPassword() {return Password;}
+    public void setPassword(String password) {
+        Password = password;
+    }
 
-    public void setPassword(String password) {Password = password;}
+    public Boolean getEstado() {
+        return Estado;
+    }
 
-    public Boolean getEstado() {return Estado;}
+    public void setEstado(Boolean estado) {
+        Estado = estado;
+    }
 
-    public void setEstado(Boolean estado) {Estado = estado;}
+    public LocalDate getFechaRegistro() {
+        return FechaRegistro;
+    }
 
-    public LocalDate getFechaRegistro() {return FechaRegistro;}
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        FechaRegistro = fechaRegistro;
+    }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {FechaRegistro = fechaRegistro;}
+    public int getExtras() {
+        return Extras;
+    }
+
+    public void setExtras(int extras) {
+        Extras = extras;
+    }
+
+    public int getRolId() {
+        return RolId;
+    }
+
+    public void setRolId(int rolId) {
+        RolId = rolId;
+    }
 }

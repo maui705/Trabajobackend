@@ -1,16 +1,13 @@
 package com.example.trabajo2.controllers;
 
-import com.example.trabajo2.dtos.CosechaDTO;
-import com.example.trabajo2.dtos.LoteGeneralDTO;
-import com.example.trabajo2.dtos.QuantityCosecha;
-import com.example.trabajo2.entities.Cosecha;
-import com.example.trabajo2.entities.Lote;
-import com.example.trabajo2.servicesimplements.ICosechaService;
+import com.example.BD_CU.dtos.CosechaDTO;
+import com.example.BD_CU.dtos.QuantityCosecha;
+import com.example.BD_CU.entities.Cosecha;
+import com.example.BD_CU.servicesinterfaces.ICosechaService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.config.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,21 +21,21 @@ public class CosechaController {
     @Autowired
     private ICosechaService cS;
 
-    @GetMapping("/listarCosecha")
+    @GetMapping("/listar-cosecha")
     public ResponseEntity<?> listar(){
         ModelMapper m = new ModelMapper();
         List<CosechaDTO> listaCosechas = cS.list()
                 .stream().map(y->m.map(y, CosechaDTO.class))
                 .collect(Collectors.toList());
         if(listaCosechas.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay tarea registrada");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No hay cosecha registrada");
         }
         else{
             return  ResponseEntity.ok(listaCosechas);
         }
     }
 
-    @PostMapping("/registrar")
+    @PostMapping("/registrar-cosecha")
     public ResponseEntity<CosechaDTO> registrar(@RequestBody CosechaDTO dto){
         ModelMapper m=new ModelMapper();
         Cosecha c=m.map(dto, Cosecha.class);
@@ -53,7 +50,7 @@ public class CosechaController {
         Optional<Cosecha> cosecha = cS.listId(id);
 
         if (cosecha.isPresent()) {
-            LoteGeneralDTO dto = m.map(cosecha.get(), LoteGeneralDTO.class);
+            CosechaDTO dto = m.map(cosecha.get(), CosechaDTO.class);
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -62,8 +59,8 @@ public class CosechaController {
 
 
     }
-    @PutMapping("/actualizar")
-    public ResponseEntity<String> actualizar(@RequestBody Cosecha dto) {
+    @PutMapping("/actualizar-cosecha")
+    public ResponseEntity<String> actualizar(@RequestBody CosechaDTO dto) {
         Optional<Cosecha> existente = cS.listId(dto.getIdCosecha());
         if (existente.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

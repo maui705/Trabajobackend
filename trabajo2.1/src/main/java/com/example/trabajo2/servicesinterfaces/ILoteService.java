@@ -1,6 +1,6 @@
-package com.example.trabajo2.servicesimplements;
+package com.example.trabajo2.servicesinterfaces;
 
-import com.example.trabajo2.entities.Lote;
+import com.example.BD_CU.entities.Lote;
 
 import java.util.List;
 import java.util.Optional;

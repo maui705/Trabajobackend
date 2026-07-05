@@ -1,8 +1,9 @@
-package com.example.trabajo2.serviceinterfaces;
+package com.example.trabajo2.servicesimplement;
 
-import com.example.trabajo2.entities.Cosecha;
-import com.example.trabajo2.repositories.ICosechaRepository;
-import com.example.trabajo2.servicesimplements.ICosechaService;
+import com.example.BD_CU.entities.Cosecha;
+import com.example.BD_CU.repositories.ICosechaRepository;
+
+import com.example.BD_CU.servicesinterfaces.ICosechaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

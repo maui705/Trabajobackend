@@ -1,7 +1,7 @@
-package com.example.trabajo2.serviceinterfaces;
-import com.example.trabajo2.entities.Actividad;
-import com.example.trabajo2.repositories.IActividadRepository;
-import com.example.trabajo2.servicesimplements.IActividadService;
+package com.example.trabajo2.servicesimplement;
+import com.example.BD_CU.entities.Actividad;
+import com.example.BD_CU.repositories.IActividadRepository;
+import com.example.BD_CU.servicesinterfaces.IActividadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +29,10 @@ public class ActividadServiceImplement implements IActividadService {
     }
 
     @Override
-    public void update(Actividad a) {
-        lR.save(a);
-
-    }
+    public void update(Actividad a) {lR.save(a);}
 
     @Override
-    public void delete(int id) {
-        lR.deleteById(id);
-
-    }
+    public void delete(int id) {lR.deleteById(id);}
 
     @Override
     public List<Object[]> quantityActividad() {

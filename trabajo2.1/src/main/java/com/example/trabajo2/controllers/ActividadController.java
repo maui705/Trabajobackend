@@ -1,8 +1,8 @@
 package com.example.trabajo2.controllers;
 
-import com.example.trabajo2.dtos.*;
-import com.example.trabajo2.entities.Actividad;
-import com.example.trabajo2.servicesimplements.IActividadService;
+import com.example.BD_CU.dtos.*;
+import com.example.BD_CU.entities.Actividad;
+import com.example.BD_CU.servicesinterfaces.IActividadService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("api/actividad")
 public class ActividadController {
     @Autowired
     private IActividadService Ls;
 
-    @GetMapping("/listar")
+    @GetMapping("/listar-actividad")
     public ResponseEntity<List<ActividadDTO>> listar() {
         ModelMapper m = new ModelMapper();
         List<ActividadDTO> ListarActividad = Ls.list().stream()
@@ -29,7 +30,7 @@ public class ActividadController {
         return ResponseEntity.ok(ListarActividad);
     }
 
-    @PostMapping("/web")
+    @PostMapping("/registrar-actividad")
     public ResponseEntity<ActividadGeneralDTO> registrar(@RequestBody ActividadGeneralDTO dto) {
         ModelMapper m = new ModelMapper();
         Actividad c = m.map(dto, Actividad.class);
@@ -52,7 +53,7 @@ public class ActividadController {
         }
     }
 
-    @PutMapping("/actualiza")
+    @PutMapping("/actualizar-actividad")
     public ResponseEntity<String> actualizar(@RequestBody ActividadGeneralDTO dto) {
         Optional<Actividad> existente = Ls.listId(dto.getActividadid());
         if (existente.isEmpty()) {
@@ -85,7 +86,7 @@ public class ActividadController {
         }
     }
 
-    @PostMapping("/cantidad-variedadcafe")
+    @PostMapping("/cantidad-variedadcafe-actividad")
     public ResponseEntity<?>CantidadVariedadCafe(){
         List<Object[]> listaCantidad=Ls.quantityActividad();
         if(listaCantidad.isEmpty()){

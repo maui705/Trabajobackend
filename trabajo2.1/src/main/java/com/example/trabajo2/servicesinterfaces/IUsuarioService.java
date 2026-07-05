@@ -1,6 +1,6 @@
-package com.example.trabajo2.servicesimplements;
+package com.example.trabajo2.servicesinterfaces;
 
-import com.example.trabajo2.entities.Usuario;
+import com.example.BD_CU.entities.Usuario;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,5 +11,6 @@ public interface IUsuarioService {
     public Usuario insert(Usuario Us);
     public void update(Usuario tp);
     public void delete(int id);
-
+    List<Object[]> quantityUsuariosxRolNative();
+    List<Object[]> buscarPagoUsuariosNative();
 }

@@ -1,7 +1,5 @@
 package com.example.trabajo2.dtos;
 
-import jakarta.persistence.Column;
-
 public class LoteDTO {
 
     private String ubicacion;

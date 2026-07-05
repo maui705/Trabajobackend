@@ -4,7 +4,6 @@ public class QuantityLote {
     private int loteId;
     private String ubicacion;
     private String variedadCafe;
-    private int cantidad;
     private  int quantity;
 
     public int getLoteId() {
@@ -29,14 +28,6 @@ public class QuantityLote {
 
     public void setVariedadCafe(String variedadCafe) {
         this.variedadCafe = variedadCafe;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public int getQuantity() {

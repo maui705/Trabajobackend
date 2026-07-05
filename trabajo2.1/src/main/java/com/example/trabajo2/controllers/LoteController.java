@@ -1,11 +1,10 @@
 package com.example.trabajo2.controllers;
 
-import com.example.trabajo2.dtos.LoteDTO;
-import com.example.trabajo2.dtos.LoteGeneralDTO;
-import com.example.trabajo2.dtos.QuantityCosecha;
-import com.example.trabajo2.dtos.QuantityLote;
-import com.example.trabajo2.entities.Lote;
-import com.example.trabajo2.servicesimplements.ILoteService;
+import com.example.BD_CU.dtos.LoteDTO;
+import com.example.BD_CU.dtos.LoteGeneralDTO;
+import com.example.BD_CU.dtos.QuantityLote;
+import com.example.BD_CU.entities.Lote;
+import com.example.BD_CU.servicesinterfaces.ILoteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +22,7 @@ public class LoteController {
     @Autowired
     private ILoteService lS;
 
-    @GetMapping("/listar")
+    @GetMapping("/listar-lote")
     public ResponseEntity<List<LoteDTO>> listar() {
         ModelMapper m = new ModelMapper();
         List<LoteDTO> listaLotes = lS.list().stream()
@@ -32,7 +31,7 @@ public class LoteController {
         return ResponseEntity.ok( listaLotes);
     }
 
-    @PostMapping("/registrar")
+    @PostMapping("/registrar-lote")
     public ResponseEntity<LoteGeneralDTO> registrar(@RequestBody LoteGeneralDTO dto){
         ModelMapper m=new ModelMapper();
         Lote c=m.map(dto, Lote.class);
@@ -55,7 +54,7 @@ public class LoteController {
         }
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/actualizar-lote")
     public ResponseEntity<String> actualizar(@RequestBody LoteGeneralDTO dto) {
         Optional<Lote> existente = lS.listId(dto.getLoteId());
         if (existente.isEmpty()) {
@@ -86,7 +85,7 @@ public class LoteController {
                     .body("Lote encontrado");
         }
     }
-    @PostMapping("/cantidad-variedadcafe")
+    @PostMapping("/cantidad-variedadcafe-lote")
     public ResponseEntity<?>CantidadCosecha(){
         List<Object[]> listaCantidad=lS.quantityLote();
         if(listaCantidad.isEmpty()){

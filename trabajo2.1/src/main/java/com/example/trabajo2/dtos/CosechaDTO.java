@@ -1,7 +1,5 @@
 package com.example.trabajo2.dtos;
 
-import jakarta.persistence.Column;
-
 public class CosechaDTO {
     private int idCosecha;
     private int cantidad;
@@ -9,6 +7,8 @@ public class CosechaDTO {
     private String firmaElectronica;
     private String responsable;
     private String metodos;
+    private int loteId;
+
 
     public int getIdCosecha() {
         return idCosecha;
@@ -57,4 +57,8 @@ public class CosechaDTO {
     public void setMetodos(String metodos) {
         this.metodos = metodos;
     }
+
+    public int getLoteId() {return loteId;}
+
+    public void setLoteId(int loteId) {this.loteId = loteId;}
 }

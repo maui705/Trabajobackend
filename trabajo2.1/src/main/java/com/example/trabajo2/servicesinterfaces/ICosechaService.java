@@ -1,6 +1,6 @@
-package com.example.trabajo2.servicesimplements;
+package com.example.trabajo2.servicesinterfaces;
 
-import com.example.trabajo2.entities.Cosecha;
+import com.example.BD_CU.entities.Cosecha;
 
 import java.util.List;
 import java.util.Optional;

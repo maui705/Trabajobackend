@@ -1,6 +1,6 @@
 package com.example.trabajo2.repositories;
 
-import com.example.trabajo2.entities.Cosecha;
+import com.example.BD_CU.entities.Cosecha;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

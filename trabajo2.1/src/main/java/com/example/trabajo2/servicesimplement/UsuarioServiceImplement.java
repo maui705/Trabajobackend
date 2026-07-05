@@ -1,8 +1,8 @@
-package com.example.trabajo2.serviceinterfaces;
+package com.example.trabajo2.servicesimplement;
 
-import com.example.trabajo2.entities.Usuario;
-import com.example.trabajo2.repositories.IUsuarioRepository;
-import com.example.trabajo2.servicesimplements.IUsuarioService;
+import com.example.BD_CU.entities.Usuario;
+import com.example.BD_CU.repositories.IUsuarioRepository;
+import com.example.BD_CU.servicesinterfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,10 @@ public class UsuarioServiceImplement implements IUsuarioService {
         Tr.deleteById(id);
     }
 
+    @Override
+    public List<Object[]> quantityUsuariosxRolNative() {return Tr.quantityUsuariosxRolNative();}
 
-
+    @Override
+    public List<Object[]> buscarPagoUsuariosNative() {return Tr.buscarPagoUsuariosNative();}
 
 }

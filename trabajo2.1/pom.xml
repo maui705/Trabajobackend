@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.0.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>Marycielo</artifactId>
+    <artifactId>BD-CU</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>trabajo2</name>
-    <description>trabajo2</description>
+    <name>trabajo</name>
+    <description>trabajo</description>
     <url/>
     <licenses>
         <license/>
@@ -29,7 +29,6 @@
     <properties>
         <java.version>17</java.version>
     </properties>
-
     <dependencies>
         <!-- Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
         <dependency>
@@ -53,7 +52,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -76,6 +74,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
