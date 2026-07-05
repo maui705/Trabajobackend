@@ -1,0 +1,115 @@
+package com.example.BD_CU.controllers;
+
+import com.example.BD_CU.dtos.LoteDTO;
+import com.example.BD_CU.dtos.LoteGeneralDTO;
+import com.example.BD_CU.dtos.QuantityLote;
+import com.example.BD_CU.entities.Lote;
+import com.example.BD_CU.servicesinterfaces.ILoteService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/lote")
+public class LoteController {
+    @Autowired
+    private ILoteService lS;
+
+    @GetMapping("/listar-lote")
+   // @PreAuthorize("hasAuthority('AGRI')")
+    public ResponseEntity<List<LoteGeneralDTO>> listar() {
+        ModelMapper m = new ModelMapper();
+        List<LoteGeneralDTO> listaLotes = lS.list().stream()
+                .map(y -> m.map(y, LoteGeneralDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok( listaLotes);
+    }
+
+    @PostMapping("/registrar-lote")
+  //  @PreAuthorize("hasAuthority('SUP')")
+    public ResponseEntity<LoteGeneralDTO> registrar(@RequestBody LoteGeneralDTO dto){
+        ModelMapper m=new ModelMapper();
+        Lote c=m.map(dto, Lote.class);
+        Lote cur= lS.insert(c);
+        LoteGeneralDTO responseDTO=m.map(cur,LoteGeneralDTO.class);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+    }
+
+    @GetMapping("/{id}")
+   // @PreAuthorize("hasAuthority('AGRI')")
+    public ResponseEntity<?> buscarPorId(@PathVariable int id) {
+        ModelMapper m = new ModelMapper();
+        Optional<Lote> lote = lS.listId(id);
+
+        if (lote.isPresent()) {
+            LoteGeneralDTO dto = m.map(lote.get(), LoteGeneralDTO.class);
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Lote no encontrado");
+        }
+    }
+
+    @PutMapping("/actualizar-lote")
+   // @PreAuthorize("hasAuthority('SUP')")
+    public ResponseEntity<String> actualizar(@RequestBody LoteGeneralDTO dto) {
+        Optional<Lote> existente = lS.listId(dto.getLoteId());
+        if (existente.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Lote no encontrado");
+        }
+        Lote p = existente.get();
+        p.setLoteId(dto.getLoteId());
+        p.setUbicacion(dto.getUbicacion());
+        p.setEstado(dto.getEstado());
+        p.setObservacion(dto.getObservacion());
+        p.setTamaño(dto.getTamaño());
+        p.setVariedadCafe(dto.getVariedadCafe());
+
+        lS.update(p);
+
+        return ResponseEntity.ok("Lote actualizado correctamente");
+    }
+
+    @DeleteMapping("/{id}")
+   // @PreAuthorize("hasAuthority('SUP')")
+    public ResponseEntity<String> eliminar(@PathVariable int id) {
+        Optional<Lote> project = lS.listId(id);
+
+        if (project.isPresent()) {
+            lS.delete(id);
+            return ResponseEntity.ok("Lote eliminado correctamente");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Lote encontrado");
+        }
+    }
+
+    @GetMapping("/cantidad-cosecha-lote")
+    //@PreAuthorize("hasAuthority('SUP')")
+    public ResponseEntity<?>CantidadCosecha(){
+        List<Object[]> listaCantidad=lS.quantityLote();
+        if(listaCantidad.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No hay cosechas asignadas");
+        }
+        List<QuantityLote> respuesta=new ArrayList<>();
+        for(Object[] fila:listaCantidad){
+            QuantityLote dto=new QuantityLote();
+            dto.setLoteId(((Number)fila[0]).intValue());
+            dto.setUbicacion((String) fila[1]);
+            dto.setVariedadCafe((String) fila[2]);
+            dto.setQuantity(((Number)fila[3]).intValue());
+            respuesta.add(dto);
+        }
+        return  ResponseEntity.ok(respuesta);
+    }
+}
